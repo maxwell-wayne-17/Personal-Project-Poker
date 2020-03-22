@@ -49,5 +49,33 @@ public class PokerTest {
 		assertEquals(expected, actual);	
 	}
 	
+	@Test
+	public void compareCard1() {
+		Card great = new Card(100000, Suit.SPADES);
+		Card less = new Card(0, Suit.SPADES);
+		
+		int test = great.compareTo(less);
+		
+		boolean check = test > 0;
+		boolean expected = true;
+		
+		assertEquals(expected, check);
+		
+	}
+	
+	@Test
+	public void compareCard2() {
+		Card great = new Card(0, Suit.SPADES);
+		Card less = new Card(1000000, Suit.SPADES);
+		
+		int test = great.compareTo(less);
+		
+		boolean check = test > 0;
+		boolean expected = false;
+		
+		assertEquals(expected, check);
+		
+	}
+	
 	
 }

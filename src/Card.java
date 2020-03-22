@@ -3,7 +3,7 @@
  * @author maxwn
  *
  */
-public class Card {
+public class Card implements Comparable<Card>{
 
 	/**
 	 * Number value of card
@@ -49,6 +49,22 @@ public class Card {
 	}
 	
 	/**
+	 * getter for suit
+	 * @return suit of card
+	 */
+	public Suit getSuit() {
+		return this.type;
+	}
+	
+	/**
+	 * getter for number value of card
+	 * @return number value of card
+	 */
+	public int getNum() {
+		return this.number;
+	}
+	
+	/**
 	 * prints the card
 	 * @return "num" of "suit"
 	 */
@@ -80,6 +96,15 @@ public class Card {
 		}
 		
 		
+		
+	}
+
+	/**
+	 * comparable override method
+	 */
+	@Override
+	public int compareTo(Card o) {
+		return this.number - o.getNum();
 	}
 	
 	
