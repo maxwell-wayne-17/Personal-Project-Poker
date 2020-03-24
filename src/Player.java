@@ -4,6 +4,7 @@
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 
 
 /**
@@ -46,7 +47,7 @@ public class Player {
 	/**
 	 * hand containing two cards
 	 */
-	private ArrayList<Card> hand = new ArrayList<Card>(2);
+	private ArrayList<Card> hand;
 	
 	/**
 	 * Default constructor
@@ -113,6 +114,15 @@ public class Player {
 		this.isFolded = false;
 		this.isDealer = false;
 		
+		ArrayList<Card> empty = new ArrayList<Card>();
+		this.hand = empty;
+		
+		
+	}
+	
+	
+	public void setHand(ArrayList<Card> twoCards) {
+		this.hand = twoCards;
 	}
 	
 	public Hands findHand(ArrayList<Card> table) {
@@ -121,7 +131,9 @@ public class Player {
 		fullTable.addAll(this.hand);
 		fullTable.addAll(table);
 		
+		Collections.sort(fullTable);
 		
+		//section to find flush
 		boolean isFlush = false;
 		
 		int spades = 0;
@@ -156,8 +168,45 @@ public class Player {
 		
 		if (spades >= 5 || clubs >= 5 || diamonds >= 5 || hearts >= 5) {
 			isFlush = true;
+			return Hands.FLUSH;
 		}
 			
+		
+		//Section to find straight
+		int isStraight = 0; //must be >= 5 for straight
+		
+		//has all card numbers
+		HashSet<Integer> numbers = new HashSet<Integer>();
+		for (int i = 0; i < fullTable.size(); ++i) {
+			numbers.add(fullTable.get(i).getNum());
+		}
+		
+		for (int i = 0; i < fullTable.size(); i++) {
+			
+			int currentNum = fullTable.get(i).getNum();
+			
+			if (numbers.contains(currentNum)) {
+				//j becomes consecutive numbers and checks hash table
+				int j = currentNum;
+				while (numbers.contains(j)) {
+					j++;
+				}
+				
+				if (isStraight < j - currentNum) {
+					
+					//get length of straight by subractive highest number from lowest
+					isStraight = j - currentNum;
+				}
+			}
+			
+		}
+		
+		if (isStraight >= 5) {
+			return Hands.STRAIGHT;
+		}
+		
+		//Section to find pair/3 of a kind/4 of a kinds
+		
 		
 		return Hands.HIGH_CARD;
 		

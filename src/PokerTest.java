@@ -3,6 +3,9 @@
  */
 
 import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
+
 import org.junit.*;
 
 
@@ -76,6 +79,103 @@ public class PokerTest {
 		assertEquals(expected, check);
 		
 	}
+	
+	@Test
+	public void findFlush1() {
+		
+		Player test = new Player("max", 5000);
+		
+		ArrayList<Card> table = new ArrayList<Card>();
+		for (int i = 0; i < 5; i++) {
+			Card temp = new Card(i, Suit.HEARTS);
+			table.add(temp);
+		}
+		
+		Card one = new Card(13, Suit.SPADES);
+		Card two = new Card(14, Suit.CLUBS);
+		ArrayList<Card> twoCards = new ArrayList<Card>();
+		twoCards.add(one);
+		twoCards.add(two);
+		
+		test.setHand(twoCards);
+		
+		Hands actual = test.findHand(table);
+		Hands expected = Hands.FLUSH;
+		
+		assertEquals(expected, actual);
+		
+			
+	}
+	
+	@Test
+	public void findStraight1() {
+		
+		Player test = new Player("max", 5000);
+		
+
+		Card one = new Card(13, Suit.SPADES);
+		Card two = new Card(14, Suit.CLUBS);
+		ArrayList<Card> twoCards = new ArrayList<Card>();
+		twoCards.add(one);
+		twoCards.add(two);
+		
+		test.setHand(twoCards);
+		
+		ArrayList<Card> table = new ArrayList<Card>();
+		Card three = new Card(12, Suit.HEARTS);
+		table.add(three);
+		Card four = new Card(11, Suit.DIAMONDS);
+		table.add(four);
+		Card five = new Card(10, Suit.SPADES);
+		table.add(five);
+		Card six = new Card(2, Suit.CLUBS);
+		table.add(six);
+		Card seven = new Card(7, Suit.HEARTS);
+		table.add(seven);
+		
+		Hands actual = test.findHand(table);
+		Hands expected = Hands.STRAIGHT;
+		
+		assertEquals(expected, actual);
+		
+			
+	}
+	
+	@Test
+	public void findStraight2() {
+		
+		Player test = new Player("max", 5000);
+		
+
+		Card one = new Card(13, Suit.SPADES);
+		Card two = new Card(14, Suit.CLUBS);
+		ArrayList<Card> twoCards = new ArrayList<Card>();
+		twoCards.add(one);
+		twoCards.add(two);
+		
+		test.setHand(twoCards);
+		
+		ArrayList<Card> table = new ArrayList<Card>();
+		Card three = new Card(3, Suit.HEARTS);
+		table.add(three);
+		Card four = new Card(4, Suit.DIAMONDS);
+		table.add(four);
+		Card five = new Card(5, Suit.SPADES);
+		table.add(five);
+		Card six = new Card(6, Suit.CLUBS);
+		table.add(six);
+		Card seven = new Card(7, Suit.HEARTS);
+		table.add(seven);
+		
+		Hands actual = test.findHand(table);
+		Hands expected = Hands.STRAIGHT;
+		
+		assertEquals(expected, actual);
+		
+			
+	}
+	
+	
 	
 	
 }
