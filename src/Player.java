@@ -4,6 +4,7 @@
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 
 
@@ -50,6 +51,11 @@ public class Player {
 	private ArrayList<Card> hand;
 	
 	/**
+	 * Best combination of cards
+	 */
+	private Hands bestHand;
+	
+	/**
 	 * Default constructor
 	 */
 	public Player() {
@@ -60,6 +66,7 @@ public class Player {
 		this.isFolded = false;
 		this.inHand = true;
 		this.isDealer = false;
+		this.bestHand = Hands.HIGH_CARD;
 		
 	}
 	
@@ -76,6 +83,7 @@ public class Player {
 		this.isFolded = false;
 		this.inHand = true;
 		this.isDealer = false;
+		this.bestHand = Hands.HIGH_CARD;
 		
 	}
 	
@@ -118,6 +126,14 @@ public class Player {
 		this.hand = empty;
 		
 		
+	}
+	
+	/**
+	 * Returns player's best current hand
+	 * @return player's current hand
+	 */
+	public Hands getHand() {
+		return this.bestHand;
 	}
 	
 	
@@ -168,7 +184,6 @@ public class Player {
 		
 		if (spades >= 5 || clubs >= 5 || diamonds >= 5 || hearts >= 5) {
 			isFlush = true;
-			return Hands.FLUSH;
 		}
 			
 		
@@ -194,21 +209,73 @@ public class Player {
 				
 				if (isStraight < j - currentNum) {
 					
-					//get length of straight by subractive highest number from lowest
+					//get length of straight by subracting highest number from lowest
 					isStraight = j - currentNum;
 				}
 			}
 			
 		}
 		
-		if (isStraight >= 5) {
-			return Hands.STRAIGHT;
+		if (isFlush && isStraight >= 5) {
+			return Hands.STRAIGHT_FLUSH;
 		}
 		
 		//Section to find pair/3 of a kind/4 of a kinds
+		HashMap<Integer, Integer> repeats = new HashMap<>();
 		
+		for (int i = 0; i < fullTable.size(); i++) {
+			
+			int currentNum = fullTable.get(i).getNum();
+			repeats.put(currentNum, 1);
+			
+		}
 		
-		return Hands.HIGH_CARD;
+		boolean quads = false;
+		boolean trips = false;
+		boolean fullHouse = false;
+		boolean pair = false;
+		
+		if (repeats.containsValue(4)) {
+			quads = true;
+			//return Hands.FOUR_OF_A_KIND;
+		}
+		else if(repeats.containsValue(3) && repeats.containsValue(2)) {
+			fullHouse = true;
+			//return Hands.FULL_HOUSE;
+		}
+		else if(repeats.containsValue(3)) {
+			trips = true;
+			//return Hands.THREE_OF_A_KIND;
+		}
+		else if (repeats.containsValue(2)) {
+			pair = true;
+			//return Hands.PAIR;
+		}
+		
+		if (quads == true) {
+			return Hands.FOUR_OF_A_KIND;
+		}
+		else if (fullHouse == true) {
+			return Hands.FULL_HOUSE;
+		}
+		else if (isFlush == true) {
+			return Hands.FLUSH;
+		}
+		else if (isStraight >= 5) {
+			return Hands.STRAIGHT;
+		}
+		else if (trips == true) {
+			return Hands.THREE_OF_A_KIND;
+		}
+		//STILL NEED TWO PAIR
+		else if (pair == true) {
+			return Hands.PAIR;
+		}
+		else {
+			return Hands.HIGH_CARD;
+		}
+		
+	
 		
 		}
 		

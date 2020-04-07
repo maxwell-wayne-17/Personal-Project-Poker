@@ -81,7 +81,7 @@ public class PokerTest {
 	}
 	
 	@Test
-	public void findFlush1() {
+	public void findStrightFlush1() {
 		
 		Player test = new Player("max", 5000);
 		
@@ -100,7 +100,7 @@ public class PokerTest {
 		test.setHand(twoCards);
 		
 		Hands actual = test.findHand(table);
-		Hands expected = Hands.FLUSH;
+		Hands expected = Hands.STRAIGHT_FLUSH;
 		
 		assertEquals(expected, actual);
 		
