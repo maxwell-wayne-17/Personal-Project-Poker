@@ -157,9 +157,9 @@ public class Player {
 		int diamonds = 0;
 		int hearts = 0;
 		
-		for (int i = 0; i < table.size(); i++) {
+		for (int i = 0; i < fullTable.size(); i++) {
 			
-			switch (table.get(i).getSuit()) {
+			switch (fullTable.get(i).getSuit()) {
 			case SPADES:
 				spades++;
 				break;

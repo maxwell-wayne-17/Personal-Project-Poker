@@ -175,6 +175,39 @@ public class PokerTest {
 			
 	}
 	
+	@Test
+	public void findFlush1() {
+		
+		Player test = new Player("max", 5000);
+		
+
+		Card one = new Card(13, Suit.SPADES);
+		Card two = new Card(14, Suit.SPADES);
+		ArrayList<Card> twoCards = new ArrayList<Card>();
+		twoCards.add(one);
+		twoCards.add(two);
+		
+		test.setHand(twoCards);
+		
+		ArrayList<Card> table = new ArrayList<Card>();
+		Card three = new Card(3, Suit.SPADES);
+		table.add(three);
+		Card four = new Card(10, Suit.SPADES);
+		table.add(four);
+		Card five = new Card(5, Suit.SPADES);
+		table.add(five);
+		Card six = new Card(12, Suit.CLUBS);
+		table.add(six);
+		Card seven = new Card(7, Suit.HEARTS);
+		table.add(seven);
+		
+		Hands actual = test.findHand(table);
+		Hands expected = Hands.FLUSH;
+		
+		assertEquals(expected, actual);
+		
+	}
+	
 	
 	
 	
