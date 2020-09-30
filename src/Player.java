@@ -46,7 +46,7 @@ public class Player {
 	private boolean isDealer;
 	
 	/**
-	 * hand containing two cards
+	 * individual's hand containing two cards
 	 */
 	private ArrayList<Card> hand;
 	
@@ -136,14 +136,151 @@ public class Player {
 		return this.bestHand;
 	}
 	
-	
+	/**
+	 * Setter to set the two cards dealt to the player
+	 * @param twoCards Two cards dealt to player
+	 */
 	public void setHand(ArrayList<Card> twoCards) {
 		this.hand = twoCards;
 	}
 	
+	/**
+	 * Method used to steamline setting up the player's hand to be checked
+	 * @param table cards on the table to combine to player's two cards in hand
+	 * @return array player's sorted playable cards
+	 */
+	public ArrayList<Card> setFullTable(ArrayList<Card> table) {
+		
+		ArrayList<Card> fullTable = new ArrayList<Card>();
+		fullTable.addAll(this.hand);
+		fullTable.addAll(table);
+		
+		Collections.sort(fullTable);
+		
+		return fullTable;
+		
+	}
+	
+	/**
+	 * CHANGE TO PRIVATE LATER
+	 * Checks full hand for flush
+	 * @param table player's hand and cards on table
+	 * @return negative int of player's highest card if no flush, positive int of player's highest
+	 * 		   suited card if flush present
+	 */
+	public int findFlush(ArrayList<Card> table) {
+		
+		ArrayList<Card> fullTable = this.setFullTable(table);
+		
+		boolean isFlush = false;
+		
+		int spades = 0;
+		int clubs = 0;
+		int diamonds = 0;
+		int hearts = 0;
+		
+		for (int i = 0; i < fullTable.size(); i++) {
+			
+			switch (fullTable.get(i).getSuit()) {
+			case SPADES:
+				spades++;
+				break;
+			
+			case CLUBS:
+				clubs++;
+				break;
+				
+			case DIAMONDS:
+				diamonds++;
+				break;
+				
+			case HEARTS:
+				hearts++;
+				break;
+			
+			default:
+				break;		
+			
+			}
+		}
+		
+		Suit flushSuit = Suit.SPADES;
+		
+		if (spades >= 5) {
+			isFlush = true;
+			flushSuit = Suit.SPADES;
+		}
+		else if(clubs >= 5) {
+			isFlush = true;
+			flushSuit = Suit.CLUBS;
+		}
+		else if(diamonds >= 5) {
+			isFlush = true;
+			flushSuit = Suit.DIAMONDS;
+		}
+		else if(hearts >= 5) {
+			isFlush = true;
+			flushSuit = Suit.HEARTS;
+		}
+		
+		int maxInt = 1;
+		int currentNum = 0;
+		for (int i = 0; isFlush && i < fullTable.size(); i++) {
+			currentNum = fullTable.get(i).getNum();
+			Suit currentSuit = fullTable.get(i).getSuit();
+			if (currentNum > maxInt && currentSuit == flushSuit ) {
+				maxInt = currentNum;
+			}
+		}
+		
+		if (isFlush) {
+			return maxInt;
+		}
+		else {
+			return -1 * maxInt;
+		}
+	}
+	
+	/**
+	 * Checks full hand for straight
+	 * @param table player's hand and cards on table
+	 * @return true if straight on board, false if not
+	 */
+	private boolean findStraight(ArrayList<Card> table) {
+		return false;
+	}
+	
+	
+	/**
+	 * Checks full hand for full house
+	 * @param table player's hand and cards on table
+	 * @return true if full house on board, false if not
+	 */
+	private boolean findFullHouse(ArrayList<Card> table) {
+		return false;
+	}
+	
+	/**
+	 * Checks full hand for quads, triples, or pairs
+	 * @param table player's hand and cards on table
+	 * @return Highest reoccurance of a card
+	 */
+	private int findRepats(ArrayList<Card> table) {
+		return 1;
+	}
+	
+	/**
+	 * Checks full hand for two pair
+	 * @param table player's hand and cards on table
+	 * @return true if two pair on board, false if not
+	 */
+	private boolean findTwoPair(ArrayList<Card> table) {
+		return false;
+	}
+	
 	public Hands findHand(ArrayList<Card> table) {
 		
-		ArrayList<Card> fullTable = new ArrayList();
+		ArrayList<Card> fullTable = new ArrayList<Card>();
 		fullTable.addAll(this.hand);
 		fullTable.addAll(table);
 		
