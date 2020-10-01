@@ -80,7 +80,7 @@ public class PokerTest {
 	}
 	
 	@Test
-	public void testInnerFlush1() {
+	public void findFlush1() {
 		Player test = new Player("max", 5000);
 		
 		ArrayList<Card> table = new ArrayList<Card>();
@@ -97,18 +97,17 @@ public class PokerTest {
 		
 		test.setHand(twoCards);
 		
-		int actual = test.findFlush(table);
-		int expected = 5;
+		boolean actual = test.findFlush(table);
+		boolean expected = true;
 		
 		assertEquals(expected, actual);
 	}
 	
 	@Test
-	public void findFlush1() {
+	public void findFlush2() {
 		
 		Player test = new Player("max", 5000);
 		
-
 		Card one = new Card(13, Suit.SPADES);
 		Card two = new Card(14, Suit.SPADES);
 		ArrayList<Card> twoCards = new ArrayList<Card>();
@@ -129,8 +128,8 @@ public class PokerTest {
 		Card seven = new Card(7, Suit.HEARTS);
 		table.add(seven);
 		
-		int actual = test.findFlush(table);
-		int expected = 14;
+		boolean actual = test.findFlush(table);
+		boolean expected = true;
 		
 		assertEquals(expected, actual);
 		
@@ -139,24 +138,119 @@ public class PokerTest {
 	@Test
 	public void findFlushFail1() {
 		
-		/**
-		 * Test a set of cards that isn't a flush
-		 */
+		Player test = new Player("max", 5000);
+		
+		Card one = new Card(13, Suit.SPADES);
+		Card two = new Card(14, Suit.HEARTS);
+		ArrayList<Card> twoCards = new ArrayList<Card>();
+		twoCards.add(one);
+		twoCards.add(two);
+		
+		test.setHand(twoCards);
+		
+		ArrayList<Card> table = new ArrayList<Card>();
+		Card three = new Card(3, Suit.DIAMONDS);
+		table.add(three);
+		Card four = new Card(10, Suit.CLUBS);
+		table.add(four);
+		Card five = new Card(5, Suit.SPADES);
+		table.add(five);
+		Card six = new Card(12, Suit.HEARTS);
+		table.add(six);
+		Card seven = new Card(7, Suit.DIAMONDS);
+		table.add(seven);
+		
+		boolean actual = test.findFlush(table);
+		boolean expected = false;
+		
+		assertEquals(expected, actual);
 		
 	}
 	
 	@Test
-	public void findStrightFlush1() {
+	public void findFlushFail2() {
 		
 		Player test = new Player("max", 5000);
 		
-		ArrayList<Card> table = new ArrayList<Card>();
-		for (int i = 0; i < 5; i++) {
-			Card temp = new Card(i, Suit.HEARTS);
-			table.add(temp);
-		}
-		
 		Card one = new Card(13, Suit.SPADES);
+		Card two = new Card(14, Suit.SPADES);
+		ArrayList<Card> twoCards = new ArrayList<Card>();
+		twoCards.add(one);
+		twoCards.add(two);
+		
+		test.setHand(twoCards);
+		
+		ArrayList<Card> table = new ArrayList<Card>();
+		Card three = new Card(3, Suit.SPADES);
+		table.add(three);
+		Card four = new Card(10, Suit.SPADES);
+		table.add(four);
+		
+		boolean actual = test.findFlush(table);
+		boolean expected = false;
+		
+		assertEquals(expected, actual);
+		
+	}
+	
+	@Test
+	public void findFlushFail3() {
+		
+		Player test = new Player("max", 5000);
+		
+		Card one = new Card(13, Suit.HEARTS);
+		Card two = new Card(14, Suit.HEARTS);
+		ArrayList<Card> twoCards = new ArrayList<Card>();
+		twoCards.add(one);
+		twoCards.add(two);
+		
+		test.setHand(twoCards);
+		
+		ArrayList<Card> table = new ArrayList<Card>();
+		Card three = new Card(3, Suit.HEARTS);
+		table.add(three);
+		Card four = new Card(10, Suit.HEARTS);
+		table.add(four);
+		
+		boolean actual = test.findFlush(table);
+		boolean expected = false;
+		
+		assertEquals(expected, actual);
+		
+	}
+	
+	@Test
+	public void findFlushFail4() {
+		
+		Player test = new Player("max", 5000);
+		
+		Card one = new Card(13, Suit.DIAMONDS);
+		Card two = new Card(14, Suit.DIAMONDS);
+		ArrayList<Card> twoCards = new ArrayList<Card>();
+		twoCards.add(one);
+		twoCards.add(two);
+		
+		test.setHand(twoCards);
+		
+		ArrayList<Card> table = new ArrayList<Card>();
+		Card three = new Card(3, Suit.DIAMONDS);
+		table.add(three);
+		Card four = new Card(10, Suit.DIAMONDS);
+		table.add(four);
+		
+		boolean actual = test.findFlush(table);
+		boolean expected = false;
+		
+		assertEquals(expected, actual);
+		
+	}
+	
+	@Test
+	public void findFlushFail5() {
+		
+		Player test = new Player("max", 5000);
+		
+		Card one = new Card(13, Suit.CLUBS);
 		Card two = new Card(14, Suit.CLUBS);
 		ArrayList<Card> twoCards = new ArrayList<Card>();
 		twoCards.add(one);
@@ -164,12 +258,17 @@ public class PokerTest {
 		
 		test.setHand(twoCards);
 		
-		Hands actual = test.findHand(table);
-		Hands expected = Hands.STRAIGHT_FLUSH;
+		ArrayList<Card> table = new ArrayList<Card>();
+		Card three = new Card(3, Suit.CLUBS);
+		table.add(three);
+		Card four = new Card(10, Suit.CLUBS);
+		table.add(four);
+		
+		boolean actual = test.findFlush(table);
+		boolean expected = false;
 		
 		assertEquals(expected, actual);
 		
-			
 	}
 	
 	@Test
@@ -198,8 +297,8 @@ public class PokerTest {
 		Card seven = new Card(7, Suit.HEARTS);
 		table.add(seven);
 		
-		Hands actual = test.findHand(table);
-		Hands expected = Hands.STRAIGHT;
+		boolean actual = test.findStraight(table);
+		boolean expected = true;
 		
 		assertEquals(expected, actual);
 		
@@ -211,7 +310,6 @@ public class PokerTest {
 		
 		Player test = new Player("max", 5000);
 		
-
 		Card one = new Card(13, Suit.SPADES);
 		Card two = new Card(14, Suit.CLUBS);
 		ArrayList<Card> twoCards = new ArrayList<Card>();
@@ -232,8 +330,35 @@ public class PokerTest {
 		Card seven = new Card(7, Suit.HEARTS);
 		table.add(seven);
 		
+		boolean actual = test.findStraight(table);
+		boolean expected = true;
+		
+		assertEquals(expected, actual);
+		
+			
+	}
+	
+	@Test
+	public void findStrightFlush1() {
+		
+		Player test = new Player("max", 5000);
+		
+		ArrayList<Card> table = new ArrayList<Card>();
+		for (int i = 0; i < 5; i++) {
+			Card temp = new Card(i, Suit.HEARTS);
+			table.add(temp);
+		}
+		
+		Card one = new Card(13, Suit.SPADES);
+		Card two = new Card(14, Suit.CLUBS);
+		ArrayList<Card> twoCards = new ArrayList<Card>();
+		twoCards.add(one);
+		twoCards.add(two);
+		
+		test.setHand(twoCards);
+		
 		Hands actual = test.findHand(table);
-		Hands expected = Hands.STRAIGHT;
+		Hands expected = Hands.STRAIGHT_FLUSH;
 		
 		assertEquals(expected, actual);
 		

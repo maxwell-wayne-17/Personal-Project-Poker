@@ -165,10 +165,9 @@ public class Player {
 	 * CHANGE TO PRIVATE LATER
 	 * Checks full hand for flush
 	 * @param table player's hand and cards on table
-	 * @return negative int of player's highest card if no flush, positive int of player's highest
-	 * 		   suited card if flush present
+	 * @return true if flush, false if not
 	 */
-	public int findFlush(ArrayList<Card> table) {
+	public boolean findFlush(ArrayList<Card> table) {
 		
 		ArrayList<Card> fullTable = this.setFullTable(table);
 		
@@ -204,50 +203,51 @@ public class Player {
 			}
 		}
 		
-		Suit flushSuit = Suit.SPADES;
-		
-		if (spades >= 5) {
+		if (spades >= 5 || clubs >= 5 || diamonds >= 5 || hearts >= 5) {
 			isFlush = true;
-			flushSuit = Suit.SPADES;
-		}
-		else if(clubs >= 5) {
-			isFlush = true;
-			flushSuit = Suit.CLUBS;
-		}
-		else if(diamonds >= 5) {
-			isFlush = true;
-			flushSuit = Suit.DIAMONDS;
-		}
-		else if(hearts >= 5) {
-			isFlush = true;
-			flushSuit = Suit.HEARTS;
 		}
 		
-		int maxInt = 1;
-		int currentNum = 0;
-		for (int i = 0; isFlush && i < fullTable.size(); i++) {
-			currentNum = fullTable.get(i).getNum();
-			Suit currentSuit = fullTable.get(i).getSuit();
-			if (currentNum > maxInt && currentSuit == flushSuit ) {
-				maxInt = currentNum;
-			}
-		}
-		
-		if (isFlush) {
-			return maxInt;
-		}
-		else {
-			return -1 * maxInt;
-		}
+		return isFlush;
 	}
 	
-	/**
+	/** MAKE PUBLIC EVENTUALLY
 	 * Checks full hand for straight
 	 * @param table player's hand and cards on table
 	 * @return true if straight on board, false if not
 	 */
-	private boolean findStraight(ArrayList<Card> table) {
-		return false;
+	public boolean findStraight(ArrayList<Card> table) {
+		
+		ArrayList<Card> fullTable = this.setFullTable(table);
+		
+		int isStraight = 0; //must be >= 5 for straight
+		
+		//has all card numbers
+		HashSet<Integer> numbers = new HashSet<Integer>();
+		for (int i = 0; i < fullTable.size(); ++i) {
+			numbers.add(fullTable.get(i).getNum());
+		}
+		
+		for (int i = 0; i < fullTable.size(); i++) {
+			
+			int currentNum = fullTable.get(i).getNum();
+			
+			if (numbers.contains(currentNum)) {
+				//j becomes consecutive numbers and checks hash table
+				int j = currentNum;
+				while (numbers.contains(j)) {
+					j++;
+				}
+				
+				if (isStraight < j - currentNum) {
+					
+					//get length of straight by subracting highest number from lowest
+					isStraight = j - currentNum;
+				}
+			}
+			
+		}
+		
+		return (isStraight >= 5) ?  true :  false;
 	}
 	
 	
